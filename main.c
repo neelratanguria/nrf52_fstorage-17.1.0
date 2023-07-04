@@ -255,6 +255,13 @@ int main(void)
 
     cli_start();
 
+    printf("started");
+    //custom_read(258048, 12);
+    custom_read(254208, 4);
+
+    //char write_string[20] = "BACK";
+    //custom_write(254208, write_string);
+
     /* Enter main loop. */
     for (;;)
     {

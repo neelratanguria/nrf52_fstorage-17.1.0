@@ -101,6 +101,28 @@ extern void wait_for_flash_ready(nrf_fstorage_t const *);                       
 NRF_CLI_UART_DEF(cli_uart, 0, 64, 128);
 NRF_CLI_DEF(m_cli_uart, "fstorage example:~$ ", &cli_uart.transport, '\r', 4);
 
+void custom_read(uint32_t addr, uint32_t len) {
+    printf("reading\r\n");
+    ret_code_t rc;
+    uint8_t    data[256] = {0};
+
+    if (len > sizeof(data))
+    {
+        len = sizeof(data);
+    }
+    rc = nrf_fstorage_read(&fstorage, addr, data, len);
+    if (rc != NRF_SUCCESS) {
+      printf("unsuccessful\r\n");
+    }
+
+    printf("%s\n", data);
+
+    for (uint32_t i = 0; i < len; i++)
+    {
+      printf("0x%x ", data[i]);
+    }
+    printf("\n");
+}
 
 void cli_init(void)
 {
@@ -219,6 +241,32 @@ static void fstorage_write(nrf_cli_t const * p_cli, uint32_t addr, void const * 
     {
         nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "nrf_fstorage_write() returned: %s\n",
                         nrf_strerror_get(rc));
+    }
+}
+
+void custom_write(uint32_t addr, char ** argv) {
+
+    static uint8_t m_data[256];
+
+    uint32_t const len  = strlen(argv) < sizeof(m_data) ?
+                          strlen(argv) : sizeof(m_data);
+
+    memset(m_data, 0x00, sizeof(m_data));
+    memcpy(m_data, argv, len);
+
+    printf("starting\n");
+    //uint32_t len = round_up_u32(strlen(p_data));
+
+    printf("Len: %d\n", len);
+    printf("Len: %s\n", m_data);
+
+    ret_code_t rc = nrf_fstorage_write(&fstorage, addr, m_data, len, NULL);
+    if (rc != NRF_SUCCESS)
+    {
+        printf("nrf_fstorage_write() returned: %s\n",
+                        nrf_strerror_get(rc));
+    } else {
+
     }
 }
 
