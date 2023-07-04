@@ -1,0 +1,17 @@
+pca10040/blank/ses/Output/
+hex/
+pca10040/blank/arm5_no_packs/
+pca10040/blank/armgcc/
+pca10040/blank/iar/
+pca10056/blank/arm5_no_packs/
+pca10056/blank/armgcc/
+pca10056/blank/iar/
+pca10040/blank/ses/flashwrite_pca10040_Release.jlink
+pca10040/s132/ses/Output/
+pca10056/s140/ses/Output/
+pca10040/s132/arm5_no_packs/
+pca10040/s132/armgcc/
+pca10040/s132/iar/
+pca10056/s140/arm5_no_packs/
+pca10056/s140/armgcc/
+pca10056/s140/iar/
