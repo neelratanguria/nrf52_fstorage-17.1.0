@@ -57,9 +57,8 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="85" useTextEdit="1" openedFrom="C:/Users/User/Documents/playground/NRF SDK/nRF5_SDK_17.1.0_ddde560/examples/peripheral/flash_fstorage/cli.c" useBinaryEdit="0" left="0" path="../../../main.c" selected="0" top="84" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="724" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../config/sdk_config.h" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="101" useTextEdit="1" openedFrom="C:/Users/User/Documents/playground/NRF SDK/nRF5_SDK_17.1.0_ddde560/examples/peripheral/flash_fstorage/main.c" useBinaryEdit="0" left="0" path="../../../cli.c" selected="1" top="96" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="54" y="262" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../cli.c" selected="0" top="243" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="183" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../main.c" selected="1" top="213" codecName=""/>
  </Files>
  <ARMCrossStudioWindow activeProject="flash_fstorage_s132_pca10040" fileDialogDefaultFilter="*.c;*.cpp;*.cxx;*.cc;*.h;*.hpp;*.hxx" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>
