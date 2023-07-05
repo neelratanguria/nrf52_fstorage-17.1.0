@@ -256,7 +256,7 @@ int main(void)
 
     cli_start();
 
-    printf("started");
+    printf("started\n");
     //custom_read(258048, 12);
     custom_read(0x3f000, 12);
 
