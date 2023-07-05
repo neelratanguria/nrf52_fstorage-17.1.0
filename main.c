@@ -52,6 +52,7 @@ NRF_FSTORAGE_DEF(nrf_fstorage_t fstorage) =
 /* Dummy data to write to flash. */
 static uint32_t m_data          = 0xBADC0FFE;
 static char     m_hello_world[] = "hello world";
+static uint32_t m_data2          = 0xBADC0FFE;
 
 
 /**@brief   Helper function to obtain the last address on the last page of the on-chip flash that
@@ -257,7 +258,16 @@ int main(void)
 
     printf("started");
     //custom_read(258048, 12);
-    custom_read(254208, 4);
+    custom_read(0x3f000, 12);
+
+    rc = nrf_fstorage_erase(&fstorage, 0x3f000, 1, NULL);
+    if (rc != NRF_SUCCESS)
+    {
+        printf("nrf_fstorage_erase() returned: %s\n",
+                        nrf_strerror_get(rc));
+    } else {
+        printf("flash erased");
+    }
 
     //char write_string[20] = "BACK";
     //custom_write(254208, write_string);
@@ -272,8 +282,3 @@ int main(void)
         cli_process();
     }
 }
-
-
-/**
- * @}
- */
