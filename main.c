@@ -35,6 +35,8 @@ extern void cli_process(void);
 
 static void fstorage_evt_handler(nrf_fstorage_evt_t * p_evt);
 
+#define REV(n) ((n << 24) | (((n>>16)<<24)>>16) |  (((n<<16)>>24)<<16) | (n>>24))
+
 
 NRF_FSTORAGE_DEF(nrf_fstorage_t fstorage) =
 {
@@ -50,7 +52,7 @@ NRF_FSTORAGE_DEF(nrf_fstorage_t fstorage) =
 };
 
 /* Dummy data to write to flash. */
-static uint32_t m_data          = 0xBADC0FFE;
+static uint32_t m_data          = 0x00;
 static char     m_hello_world[] = "hello world";
 static uint32_t m_data2          = 0xBADC0FFE;
 
@@ -232,9 +234,11 @@ int main(void)
     NRF_LOG_INFO("Enabling the SoftDevice.");
     ble_stack_init();
 
-    m_data = 0xDEADBEEF;
+    m_data = REV(0x68656c6c6f20776f726c64);
 
     NRF_LOG_INFO("Writing \"%x\" to flash.", m_data);
+    printf("0x%x\n", m_data);
+    printf("len: %d\n", sizeof(m_data));
     rc = nrf_fstorage_write(&fstorage, 0x3e100, &m_data, sizeof(m_data), NULL);
     APP_ERROR_CHECK(rc);
 
@@ -243,7 +247,7 @@ int main(void)
 #endif
 
     NRF_LOG_INFO("Writing \"%s\" to flash.", m_hello_world);
-    rc = nrf_fstorage_write(&fstorage, 0x3f000, m_hello_world, sizeof(m_hello_world), NULL);
+    rc = nrf_fstorage_write(&fstorage, 0x3f000, &m_data, sizeof(m_data), NULL);
     APP_ERROR_CHECK(rc);
 
     wait_for_flash_ready(&fstorage);
