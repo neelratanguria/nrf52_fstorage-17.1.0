@@ -28,11 +28,6 @@
 #define APP_BLE_CONN_CFG_TAG    1
 
 
-/* Defined in cli.c */
-extern void cli_init(void);
-extern void cli_start(void);
-extern void cli_process(void);
-
 static void fstorage_evt_handler(nrf_fstorage_evt_t * p_evt);
 
 #define REV(n) ((n << 24) | (((n>>16)<<24)>>16) |  (((n<<16)>>24)<<16) | (n>>24))
@@ -226,7 +221,6 @@ int main(void)
 
     timer_init();
     log_init();
-    cli_init();
 
     nrf_fstorage_api_t * p_fs_api;
 
@@ -273,7 +267,7 @@ int main(void)
     flash_write(F_ADDR2, bson_s_2);
     flash_write(F_ADDR3, bson_s_3);
 
-    cli_start();
+    
 
     printf("=============================\n");
     printf("STARTING READ OPERATIONS\n");
@@ -303,6 +297,5 @@ int main(void)
         {
             power_manage();
         }
-        cli_process();
     }
 }
