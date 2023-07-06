@@ -115,12 +115,12 @@ void custom_read(uint32_t addr, uint32_t len) {
       printf("unsuccessful\r\n");
     }
 
-    printf("STR DATA: %s\n", data);
+    //printf("STR DATA: %s\n", data);
 
-    printf("\nHEX DATA:");
+    printf("\nHEX DATA: 0x");
     for (int32_t i = (len -1); i >= 0; i--)
     {
-      printf("0x%x ", data[i]);
+      printf("%x", data[i]);
     }
     printf("\n\n\n");
 }

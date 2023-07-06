@@ -55,8 +55,10 @@ NRF_FSTORAGE_DEF(nrf_fstorage_t fstorage) =
 static uint32_t m_data          = 0x00;
 static char     m_hello_world[] = "hello world";
 static uint32_t m_data2          = 0xBADC0FFE;
-static uint64_t bson1 = 0x64a65009fee0844a;
-static uint32_t bson2 = 0xd77da995;
+
+#define F_ADDR1 0x3e000
+#define F_ADDR2 0x3e100
+#define F_ADDR3 0x3f000
 
 
 /**@brief   Helper function to obtain the last address on the last page of the on-chip flash that
@@ -177,6 +179,18 @@ static void log_init(void)
     APP_ERROR_CHECK(rc);
 }
 
+void flash_write(uint32_t addr, void const * data) {
+    ret_code_t rc;
+    printf("Writing to addr: %x\n", addr);
+    printf("DATA: %x\n", data);
+    printf("LEN: %d\n\n", sizeof(data));
+
+    rc = nrf_fstorage_write(&fstorage, addr, &data, sizeof(data), NULL);
+    APP_ERROR_CHECK(rc);
+
+    wait_for_flash_ready(&fstorage);
+}
+
 
 int main(void)
 {
@@ -216,21 +230,24 @@ int main(void)
     APP_ERROR_CHECK(rc);
 
     print_flash_info(&fstorage);
+    uint32_t bson_s_1 = strtoul("0x64a65009", NULL, 16);
+    uint32_t bson_s_2 = strtoul("0xfee0844a", NULL, 16); //fee0844a
+    uint32_t bson_s_3 = strtoul("0xd77da995", NULL, 16);
 
     
     (void) nrf5_flash_end_addr_get();
 
-    m_data = REV(0x68656c6c);
+    printf("=============================\n");
+    printf("STARTING WRITE OPERATIONS\n");
+    printf("=============================\n\n");
 
-    printf("STARTING WRITE OPERATIONS\n\n");
+    flash_write(F_ADDR1, bson_s_1);
     
-    printf("Writing to addr: %x\n", 0x3e000);
-    printf("DATA: %x\n", REV(bson1));
-    printf("LEN: %d\n\n", sizeof(bson1));
-    
-    uint32_t len = sizeof(bson1);
+    printf("Writing to addr: %x\n", F_ADDR1);
+    printf("DATA: %x\n", bson_s_1);
+    printf("LEN: %d\n\n", sizeof(bson_s_1));
 
-    rc = nrf_fstorage_write(&fstorage, 0x3e000, &bson1, sizeof(bson1), NULL);
+    //rc = nrf_fstorage_write(&fstorage, F_ADDR1, &bson_s_1, sizeof(bson_s_1), NULL);
     APP_ERROR_CHECK(rc);
 
     wait_for_flash_ready(&fstorage);
@@ -238,14 +255,22 @@ int main(void)
 
 #ifdef SOFTDEVICE_PRESENT
     /* Enable the SoftDevice and the BLE stack. */
-    NRF_LOG_INFO("Enabling the SoftDevice.");
     ble_stack_init();
 
-    printf("Writing to addr: %x\n", 0x3e100);
-    printf("DATA: %x\n", REV(bson2));
-    printf("LEN: %d\n\n", sizeof(bson2));
+    printf("Writing to addr: %x\n", F_ADDR2);
+    printf("DATA: %x\n", bson_s_2);
+    printf("LEN: %d\n\n", sizeof(bson_s_2));
 
-    rc = nrf_fstorage_write(&fstorage, 0x3e100, &bson2, sizeof(bson2), NULL);
+    rc = nrf_fstorage_write(&fstorage, F_ADDR2, &bson_s_2, sizeof(bson_s_2), NULL);
+    APP_ERROR_CHECK(rc);
+
+    wait_for_flash_ready(&fstorage);
+
+    printf("Writing to addr: %x\n", F_ADDR3);
+    printf("DATA: %x\n", bson_s_3);
+    printf("LEN: %d\n\n", sizeof(bson_s_3));
+
+    rc = nrf_fstorage_write(&fstorage, F_ADDR3, &bson_s_3, sizeof(bson_s_3), NULL);
     APP_ERROR_CHECK(rc);
 
     wait_for_flash_ready(&fstorage);
@@ -256,20 +281,25 @@ int main(void)
 
     cli_start();
 
-    printf("STARTING READ OPERATIONS\n\n");
-    
-    custom_read(0x3e000, 8);
-    custom_read(0x3e100, 4);
+    printf("=============================\n");
+    printf("STARTING READ OPERATIONS\n");
+    printf("=============================\n\n");
 
-    printf("STARTING ERASURE OPERATIONS\n\n");
+    custom_read(F_ADDR1, 4);
+    custom_read(F_ADDR2, 4);
+    custom_read(F_ADDR3, 4);
 
-    rc = nrf_fstorage_erase(&fstorage, 0x3e000, 1, NULL);
+    printf("=============================\n");
+    printf("STARTING ERASURE OPERATIONS\n");
+    printf("=============================\n\n");
+
+    rc = nrf_fstorage_erase(&fstorage, F_ADDR1, 1, NULL);
     if (rc != NRF_SUCCESS)
     {
         printf("nrf_fstorage_erase() returned: %s\n",
                         nrf_strerror_get(rc));
     } else {
-        printf("Flash erased: %x\n", 0x3e000);
+        printf("Flash erased: %x\n", F_ADDR1);
     }
 
     /* Enter main loop. */
