@@ -102,7 +102,7 @@ NRF_CLI_UART_DEF(cli_uart, 0, 64, 128);
 NRF_CLI_DEF(m_cli_uart, "fstorage example:~$ ", &cli_uart.transport, '\r', 4);
 
 void custom_read(uint32_t addr, uint32_t len) {
-    printf("reading\r\n");
+    printf("Reading addr: %x\r\n", addr);
     ret_code_t rc;
     uint8_t    data[256] = {0};
 
@@ -115,13 +115,14 @@ void custom_read(uint32_t addr, uint32_t len) {
       printf("unsuccessful\r\n");
     }
 
-    printf("%s\n", data);
+    printf("STR DATA: %s\n", data);
 
-    for (uint32_t i = 0; i < len; i++)
+    printf("\nHEX DATA:");
+    for (int32_t i = (len -1); i >= 0; i--)
     {
       printf("0x%x ", data[i]);
     }
-    printf("\n");
+    printf("\n\n\n");
 }
 
 void cli_init(void)

@@ -48,13 +48,15 @@ NRF_FSTORAGE_DEF(nrf_fstorage_t fstorage) =
      * The function nrf5_flash_end_addr_get() can be used to retrieve the last address on the
      * last page of flash available to write data. */
     .start_addr = 0x3e000,
-    .end_addr   = 0x3ffff,
+    .end_addr   = 0x410FD,
 };
 
 /* Dummy data to write to flash. */
 static uint32_t m_data          = 0x00;
 static char     m_hello_world[] = "hello world";
 static uint32_t m_data2          = 0xBADC0FFE;
+static uint64_t bson1 = 0x64a65009fee0844a;
+static uint32_t bson2 = 0xd77da995;
 
 
 /**@brief   Helper function to obtain the last address on the last page of the on-chip flash that
@@ -215,66 +217,60 @@ int main(void)
 
     print_flash_info(&fstorage);
 
-    /* It is possible to set the start and end addresses of an fstorage instance at runtime.
-     * They can be set multiple times, should it be needed. The helper function below can
-     * be used to determine the last address on the last page of flash memory available to
-     * store data. */
+    
     (void) nrf5_flash_end_addr_get();
 
-    /* Let's write to flash. */
-    NRF_LOG_INFO("Writing \"%x\" to flash.", m_data);
-    rc = nrf_fstorage_write(&fstorage, 0x3e000, &m_data, sizeof(m_data), NULL);
+    m_data = REV(0x68656c6c);
+
+    printf("STARTING WRITE OPERATIONS\n\n");
+    
+    printf("Writing to addr: %x\n", 0x3e000);
+    printf("DATA: %x\n", REV(bson1));
+    printf("LEN: %d\n\n", sizeof(bson1));
+    
+    uint32_t len = sizeof(bson1);
+
+    rc = nrf_fstorage_write(&fstorage, 0x3e000, &bson1, sizeof(bson1), NULL);
     APP_ERROR_CHECK(rc);
 
     wait_for_flash_ready(&fstorage);
-    NRF_LOG_INFO("Done.");
+    
 
 #ifdef SOFTDEVICE_PRESENT
     /* Enable the SoftDevice and the BLE stack. */
     NRF_LOG_INFO("Enabling the SoftDevice.");
     ble_stack_init();
 
-    m_data = REV(0x68656c6c6f20776f726c64);
+    printf("Writing to addr: %x\n", 0x3e100);
+    printf("DATA: %x\n", REV(bson2));
+    printf("LEN: %d\n\n", sizeof(bson2));
 
-    NRF_LOG_INFO("Writing \"%x\" to flash.", m_data);
-    printf("0x%x\n", m_data);
-    printf("len: %d\n", sizeof(m_data));
-    rc = nrf_fstorage_write(&fstorage, 0x3e100, &m_data, sizeof(m_data), NULL);
+    rc = nrf_fstorage_write(&fstorage, 0x3e100, &bson2, sizeof(bson2), NULL);
     APP_ERROR_CHECK(rc);
 
     wait_for_flash_ready(&fstorage);
-    NRF_LOG_INFO("Done.");
+
 #endif
 
-    NRF_LOG_INFO("Writing \"%s\" to flash.", m_hello_world);
-    rc = nrf_fstorage_write(&fstorage, 0x3f000, &m_data, sizeof(m_data), NULL);
-    APP_ERROR_CHECK(rc);
-
-    wait_for_flash_ready(&fstorage);
-    NRF_LOG_INFO("Done.");
-
-    NRF_LOG_INFO("Use 'read' to read bytes from the flash.");
-    NRF_LOG_INFO("Use 'write' to write bytes to the flash.");
-    NRF_LOG_INFO("Use 'erase' to erase flash pages.");
-    NRF_LOG_INFO("Use 'flasharea' to print and configure the flash read boundaries.");
+    
 
     cli_start();
 
-    printf("started\n");
-    //custom_read(258048, 12);
-    custom_read(0x3f000, 12);
+    printf("STARTING READ OPERATIONS\n\n");
+    
+    custom_read(0x3e000, 8);
+    custom_read(0x3e100, 4);
 
-    rc = nrf_fstorage_erase(&fstorage, 0x3f000, 1, NULL);
+    printf("STARTING ERASURE OPERATIONS\n\n");
+
+    rc = nrf_fstorage_erase(&fstorage, 0x3e000, 1, NULL);
     if (rc != NRF_SUCCESS)
     {
         printf("nrf_fstorage_erase() returned: %s\n",
                         nrf_strerror_get(rc));
     } else {
-        printf("flash erased");
+        printf("Flash erased: %x\n", 0x3e000);
     }
-
-    //char write_string[20] = "BACK";
-    //custom_write(254208, write_string);
 
     /* Enter main loop. */
     for (;;)

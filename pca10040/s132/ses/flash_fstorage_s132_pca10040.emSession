@@ -2,6 +2,8 @@
 <session>
  <Bookmarks/>
  <Breakpoints groups="Breakpoints" active_group="Breakpoints">
+  <BreakpointListItem trigger="" line="255" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="../../../cli.c" useHWbreakpoint="false"/>
+  <BreakpointListItem trigger="" line="257" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="../../../cli.c" useHWbreakpoint="false"/>
   <Exceptions set="MemManage;UsageFault_Coprocessor;UsageFault_CheckingError;UsageFault_StateError;BusFault;ExceptionEntryReturnFault;HardFault"/>
  </Breakpoints>
  <ExecutionProfileWindow/>
@@ -24,6 +26,7 @@
   <ProjectSessionItem path="flash_fstorage_s132_pca10040"/>
   <ProjectSessionItem path="flash_fstorage_s132_pca10040;flash_fstorage_s132_pca10040"/>
   <ProjectSessionItem path="flash_fstorage_s132_pca10040;flash_fstorage_s132_pca10040;Application"/>
+  <ProjectSessionItem path="flash_fstorage_s132_pca10040;flash_fstorage_s132_pca10040;None"/>
   <ProjectSessionItem path="flash_fstorage_s132_pca10040;flash_fstorage_s132_pca10040;nRF_Libraries"/>
  </Project>
  <Register1>
@@ -45,7 +48,10 @@
   <Trace enabled="Yes"/>
  </TraceWindow>
  <Watch1>
-  <Watches active="1" update="Never"/>
+  <Watches active="1" update="Never">
+   <Watchpoint expression="argv" name="argv" radix="1" linenumber="255" filename="../../../cli.c"/>
+   <Watchpoint expression="m_data" name="m_data" radix="-1" linenumber="255" filename="../../../cli.c"/>
+  </Watches>
  </Watch1>
  <Watch2>
   <Watches active="0" update="Never"/>
@@ -57,8 +63,11 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="54" y="262" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../cli.c" selected="0" top="243" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="183" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../main.c" selected="1" top="213" codecName=""/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="5" y="288" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../cli.c" selected="0" top="94" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="54" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../main.c" selected="1" top="38" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="29" y="129" useTextEdit="1" openedFrom="C:/Users/User/Documents/playground/NRF SDK/nRF5_SDK_17.1.0_ddde560/examples/_MY/nrf52_fstorage-17.1.0/cli.c" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/fstorage/nrf_fstorage.c" selected="0" top="110" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="99" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/util/app_error_weak.c" selected="0" top="83" codecName=""/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="718" useTextEdit="1" openedFrom="C:/Users/User/Documents/playground/NRF SDK/nRF5_SDK_17.1.0_ddde560/examples/_MY/nrf52_fstorage-17.1.0/main.c" useBinaryEdit="0" left="0" path="../../../../../../modules/nrfx/mdk/nrf52.h" selected="0" top="702" codecName="Default"/>
  </Files>
  <ARMCrossStudioWindow activeProject="flash_fstorage_s132_pca10040" fileDialogDefaultFilter="*.c;*.cpp;*.cxx;*.cc;*.h;*.hpp;*.hxx" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>
