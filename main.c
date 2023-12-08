@@ -210,6 +210,17 @@ void flash_read(uint32_t addr, uint32_t len) {
     printf("\n\n\n");
 }
 
+void flash_erase(uint32_t addr, uint32_t page) {
+    ret_code_t rc;
+    rc = nrf_fstorage_erase(&fstorage, addr, page, NULL);
+    if (rc != NRF_SUCCESS)
+    {
+        printf("nrf_fstorage_erase() returned: %s\n",
+                        nrf_strerror_get(rc));
+    } else {
+        printf("Flash erased\n");
+    }
+}
 
 int main(void)
 {
@@ -263,11 +274,9 @@ int main(void)
     printf("STARTING WRITE OPERATIONS\n");
     printf("=============================\n\n");
 
-    flash_write(F_ADDR1, bson_s_1);
-    flash_write(F_ADDR2, bson_s_2);
-    flash_write(F_ADDR3, bson_s_3);
-
-    
+    //flash_write(F_ADDR1, bson_s_1);
+    //flash_write(F_ADDR2, bson_s_2);
+    //flash_write(F_ADDR3, bson_s_3);
 
     printf("=============================\n");
     printf("STARTING READ OPERATIONS\n");
@@ -281,14 +290,7 @@ int main(void)
     printf("STARTING ERASURE OPERATIONS\n");
     printf("=============================\n\n");
 
-    rc = nrf_fstorage_erase(&fstorage, F_ADDR1, 1, NULL);
-    if (rc != NRF_SUCCESS)
-    {
-        printf("nrf_fstorage_erase() returned: %s\n",
-                        nrf_strerror_get(rc));
-    } else {
-        printf("Flash erased\n");
-    }
+    flash_erase(F_ADDR1,2);
 
     /* Enter main loop. */
     for (;;)
